@@ -11,5 +11,6 @@ public interface CreateService {
 	ProductInfo getOneProduct(Integer id);
 	void deletProduct(Integer id);
 	void updateProduct(ProductInfo productInfo);
+	void modifyCodeById(String cost, Integer id);
 
 }

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,8 +21,10 @@ import com.DoSwipe.ProductException.ProductNotFountException;
 import com.DoSwipe.entity.ProductInfo;
 import com.DoSwipe.services.implementService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
-@RequestMapping("/prod")
+@RequestMapping("/rest/prod")
 public class ProductController {
 	@Autowired
 	private implementService implementService;
@@ -44,6 +47,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/all")
+	@ApiOperation("   ")
 	public ResponseEntity<List<ProductInfo>> getAllProduct()
 	{
 		ResponseEntity<List<ProductInfo>> res = null;
@@ -99,6 +103,26 @@ public class ProductController {
 			e.printStackTrace();
 			throw e;
 			//res = new ResponseEntity<String>(id+" - Product Not Found",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return res;
+	}
+	
+	@PatchMapping("/CostModify/{id}/{cost}")
+	public ResponseEntity<String> modifyCode(@PathVariable Integer id,
+											@PathVariable String cost)
+	{
+		System.out.println(id);
+		ResponseEntity<String> res = null;
+		try
+		{
+			implementService.modifyCodeById(cost, id);
+			res = new ResponseEntity<String>("Updated Successfulyyy",
+											//HttpStatus.OK
+											HttpStatus.PARTIAL_CONTENT);// cde 205
+		}
+		catch (ProductNotFountException e) {
+			e.printStackTrace();
+			throw e;
 		}
 		return res;
 	}

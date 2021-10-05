@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.DoSwipe.ProductException.ProductNotFountException;
 import com.DoSwipe.entity.ProductInfo;
@@ -14,32 +15,32 @@ public class implementService implements CreateService {
 	@Autowired
 	private ProductRepo productRepo;
 	
-	@Override
+
 	public Integer saveProduct(ProductInfo productInfo) {
 		double tot = productInfo.getProdCost()*productInfo.getProdQnt();
 		productInfo.setProdTotal(tot);
 		return productRepo.save(productInfo).getProid();
 	}
 
-	@Override
+
 	public List<ProductInfo> getAllProduct() {
 		// TODO Auto-generated method stub
 		return productRepo.findAll();
 	}
 
-	@Override
+
 	public ProductInfo getOneProduct(Integer id) {
 		// TODO Auto-generated method stub
 		return productRepo.findById(id).orElseThrow(()->new ProductNotFountException(id+" Product Not Fount"));
 	}
 
-	@Override
+
 	public void deletProduct(Integer id) {
 		productRepo.delete(getOneProduct(id));
 
 	}
 
-	@Override
+
 	public void updateProduct(ProductInfo productInfo) {
 		
 		if(productInfo.equals(null) || !productRepo.existsById(productInfo.getProid()))
@@ -49,6 +50,18 @@ public class implementService implements CreateService {
 		else
 		{
 			productRepo.save(productInfo);
+		}
+	}
+
+	@Transactional
+	public void modifyCodeById(String cost, Integer id) {
+		if(!productRepo.existsById(id))
+		{
+			throw new ProductNotFountException("Product Not Available");
+		}
+		else
+		{
+			productRepo.modifyCodeById(cost, id);
 		}
 	}
 
