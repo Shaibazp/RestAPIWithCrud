@@ -29,6 +29,13 @@ public class ProductController {
 	@Autowired
 	private implementService implementService;
 
+	@GetMapping("/msg")
+	public ResponseEntity<String> getMsg()
+	{
+		{
+			return new ResponseEntity<String>("Hiii",HttpStatus.OK);
+		}
+	}
 	@PostMapping("/save")
 	public ResponseEntity<String> prodsave(@RequestBody ProductInfo info)
 	{
