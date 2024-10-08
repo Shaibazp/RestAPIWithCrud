@@ -8,5 +8,5 @@ spring:
     username: root
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
-    hibernate:ddl-auto: create
+    hibernate:ddl-auto: update
     show-sql: true
